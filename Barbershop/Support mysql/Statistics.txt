@@ -1,0 +1,71 @@
+#employees
+SELECT tbl1.first_name,
+       tbl1.last_name,
+       tbl2.bookedTimes,
+       tbl3.avgRate
+FROM
+  (SELECT e.employee_id,
+          e.first_name,
+          e.last_name
+   FROM employees e) AS tbl1,
+
+  (SELECT employee_id,
+          COUNT(employee_id) AS bookedTimes
+   FROM appointments a
+   GROUP BY employee_id
+   ORDER BY bookedTimes DESC) AS tbl2,
+
+  (SELECT a.employee_id,
+          AVG(f.rate) AS avgRate
+   FROM feedbacks f
+   INNER JOIN appointments a ON f.appointment_id = a.appointment_id
+   GROUP BY a.employee_id) AS tbl3
+WHERE tbl1.employee_id = tbl2.employee_id
+  AND tbl2.employee_id = tbl3.employee_id
+ORDER BY tbl2.bookedTimes DESC, tbl3.avgRate DESC;
+
+
+#customer
+SELECT *
+FROM (SELECT customer_id, first_name, last_name
+FROM customers c) AS tbl1,
+
+(SELECT customer_id, COUNT(customer_id) AS visitTimes
+FROM appointments
+GROUP BY customer_id) AS tbl2,
+
+(SELECT customer_id, SUM(price) AS totalSpending
+FROM appointments a,
+(SELECT appointment_id, SUM(s.service_price) AS price
+FROM services s
+INNER JOIN services_booked sb
+ON s.service_id = sb.service_id
+GROUP BY sb.appointment_id) AS price
+WHERE a.appointment_id = price.appointment_id
+GROUP BY customer_id) AS tbl3
+
+WHERE tbl1.customer_id = tbl2.customer_id
+AND tbl2.customer_id = tbl3.customer_id
+ORDER BY tbl3.totalSpending DESC, tbl2.visitTimes DESC;
+
+#services:
+SELECT * FROM 
+
+(SELECT service_id, service_name
+FROM services) AS tbl1,
+
+(SELECT service_id, COUNT(service_id) AS orderedTimes
+FROM services_booked
+GROUP BY service_id) AS tbl2,
+
+(SELECT sb.service_id, AVG(f.rate) AS averageRate
+FROM services_booked sb
+INNER JOIN appointments a 
+ON sb.appointment_id = a.appointment_id
+INNER JOIN feedbacks f
+ON f.appointment_id = a.appointment_id
+GROUP BY sb.service_id) AS tbl3
+
+WHERE tbl1.service_id = tbl2.service_id
+AND tbl2.service_id = tbl3.service_id
+ORDER BY tbl3.averageRate DESC, tbl2.orderedTimes DESC;
