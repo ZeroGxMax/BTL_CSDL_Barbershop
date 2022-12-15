@@ -16,7 +16,10 @@ ER diagram link: https://erdplus.com/edit-diagram/76057dab-0b49-4cff-a99a-d74ca0
   Bảng services nối với bảng <b>service_categories</b> chứ không phải appointments
 
 ## Demo:
-Link demo: https://barbershop-2211-24.000webhostapp.com/
+- Cách 1: Vào link demo: https://barbershop-2211-24.000webhostapp.com/
+- Cách 2: 
+  +, Tải xuống repo, vào xampp, tạo database đặt tên là barbershop rồi import file barbershop_db.sql.
+  +, Đặt folder Barbershop vào C:\xampp\htdocs, rồi sử dụng link localhost/Barbershop trong trình duyệt để xem demo của trang web.
 
 ## Lưu ý:
 - Click vào biểu tượng phía trên cùng bên trái để vào Admin Panel
