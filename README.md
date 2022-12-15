@@ -12,6 +12,8 @@ ER diagram link: https://erdplus.com/edit-diagram/76057dab-0b49-4cff-a99a-d74ca0
 ## Schema diagram:
 
 ![alt text](Schema/Schema_diagram.png)
+  
+  Bảng services nối với bảng <b>service_categories</b> chứ không phải appointments
 
 ## Demo:
 Link demo: https://barbershop-2211-24.000webhostapp.com/
